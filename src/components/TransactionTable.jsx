@@ -29,7 +29,7 @@ export default function TransactionTable({ transactions }) {
 <tbody>
 
           {transactions.map((t) => (
-<tr key={t.id} className="border-b hover:bg-gray-50">
+<tr key={t.transaction_id} className="border-b hover:bg-gray-50">
 <td className="px-4 py-2">{t.transaction_id}</td>
 <td className="px-4 py-2">{t.transaction_description}</td>
 <td className="px-4 py-2">{t.amount}</td>

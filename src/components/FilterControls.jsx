@@ -21,7 +21,7 @@ export default function FilterControls({ onFilterChange }) {
         onChange={handleChange}
         className="border rounded px-2 py-1 text-sm"
       />
-      {/* Clear time button */}
+      
 <button
         type="button"
         onClick={() =>
