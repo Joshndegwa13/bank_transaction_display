@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Header() {
   return (
-<header className="flex items-center bg-gradient-to-r from-blue-800 to-purple-700 text-white shadow-md">
+<header className="flex items-center bg-gradient-to-r from-blue-900 to-purple-900 text-white shadow-md">
   <img
     src="https://mybroadband.co.za/news/wp-content/uploads/2021/03/Liquid-Telecom-Logo-Light.jpg"
     alt="Company Logo"

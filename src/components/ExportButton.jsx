@@ -21,7 +21,7 @@ export default function ExportButton({ transactions }) {
   return (
     <button
       onClick={exportToCSV}
-      className="mt-4 px-4 py-2 bg-gradient-to-r from-blue-800 to-purple-700 text-white rounded-md shadow hover:opacity-90"
+      className="mt-4 px-4 py-2 bg-gradient-to-r from-blue-900 to-purple-900 text-white rounded-md shadow hover:opacity-90"
     >
       Export to CSV
     </button>

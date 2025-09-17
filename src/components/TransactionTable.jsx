@@ -1,6 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
  
 export default function TransactionTable({ transactions }) {
+
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 30;
+ 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentTransactions = transactions.slice(indexOfFirstItem, indexOfLastItem);
+ 
+ 
+
+  const totalPages = Math.ceil(transactions.length / itemsPerPage);
+ 
+  // Handling page change
+
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+
+  };
+ 
   return (
 <div className="overflow-x-auto bg-white shadow-md rounded-lg">
 <table className="min-w-full text-sm text-left text-gray-600">
@@ -28,7 +50,7 @@ export default function TransactionTable({ transactions }) {
 </thead>
 <tbody>
 
-          {transactions.map((t) => (
+          {currentTransactions.map((t) => (
 <tr key={t.transaction_id} className="border-b hover:bg-gray-50">
 <td className="px-4 py-2">{t.transaction_id}</td>
 <td className="px-4 py-2">{t.transaction_description}</td>
@@ -46,8 +68,38 @@ export default function TransactionTable({ transactions }) {
           ))}
 </tbody>
 </table>
+ 
+      {/* Pagination controls */}
+<div className="flex justify-between items-center p-4">
+<button
+          onClick={() => goToPage(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-3 py-1 border rounded disabled:opacity-50"
+>
+          Prev
+</button>
+        <div className="flex gap-2">
+          {Array.from({ length: totalPages }, (_, i) => (
+<button
+              key={i + 1}
+              onClick={() => goToPage(i + 1)}
+              className={`px-3 py-1 border rounded ${
+                currentPage === i + 1 ? "bg-gray-200 font-semibold" : ""
+              }`}
+>
+              {i + 1}
+</button>
+          ))}
 </div>
-
+        <button
+          onClick={() => goToPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-3 py-1 border rounded disabled:opacity-50"
+>
+          Next
+</button>
+</div>
+</div>
   );
 
 }

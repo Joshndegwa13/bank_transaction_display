@@ -8,25 +8,28 @@ import SearchBar from "./components/SearchBar";
 import FilterControls from "./components/FilterControls";
  
 export default function App() {
-
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
  
-  //state for search and filters
+  // state for search and filters
 
   const [searchTerm, setSearchTerm] = useState(""); // pure string search
-  const [filters, setFilters] = useState({ date: "", time: "" }); // separate date & time
+  const [filters, setFilters] = useState({
+
+    startDate: "", 
+    endDate: "",   
+    time: "",      
+
+  });
  
   useEffect(() => {
-
-    // Fetch transactions from Laravel API
     axios
+
       .get("https://finsync.liquidtelecom.co.ke/api/transactions")
       .then((res) => {
         setTransactions(res.data.data);
         setLoading(false);
-
       })
 
       .catch((err) => {
@@ -37,29 +40,41 @@ export default function App() {
 
   }, []);
  
- 
-  const latestTransaction = transactions[0];  
-
+  const latestTransaction = transactions[0];
   const filteredTransactions = transactions.filter((txn) => {
-
     const matchesSearch = searchTerm
       ? Object.values(txn).some(
           (val) =>
             val &&
             typeof val === "string" &&
             val.toLowerCase().includes(searchTerm.toLowerCase())
+
         )
+
+      : true;
+    const txnDate = new Date(txn.transaction_date);
+    const txnDateStr = txnDate.toISOString().slice(0, 10); // YYYY-MM-DD
+ 
+    // Date range filter
+    const matchesStartDate = filters.startDate
+      ? txnDateStr >= filters.startDate
+      : true;
+    const matchesEndDate = filters.endDate
+      ? txnDateStr <= filters.endDate
       : true;
  
-    // --- FILTER: date and time separately ---
-
-    const txnDate = new Date(txn.transaction_date);
-    const matchesDate = filters.date ? txnDate.toISOString().slice(0, 10) === filters.date : true;
+    // Time filter
     const matchesTime = filters.time
       ? txnDate.toTimeString().slice(0, 5) === filters.time
       : true;
- 
-    return matchesSearch && matchesDate && matchesTime;
+
+    return (
+      matchesSearch &&
+      matchesStartDate &&
+      matchesEndDate &&
+      matchesTime
+
+    );
 
   });
  
@@ -74,9 +89,7 @@ export default function App() {
 <SearchBar onSearch={setSearchTerm} />
 <FilterControls onFilterChange={setFilters} />
 </div>
-
         )}
- 
         {loading ? (
 <p className="text-gray-600">Loading transactions...</p>
 
@@ -88,11 +101,9 @@ export default function App() {
 <TransactionTable transactions={filteredTransactions} />
 <ExportButton transactions={filteredTransactions} />
 </>
-
         )}
 </main>
 </div>
-
   );
 
 }
