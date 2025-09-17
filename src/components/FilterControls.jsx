@@ -1,5 +1,5 @@
+
 import React from "react";
- 
 export default function FilterControls({ onFilterChange }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,10 +21,20 @@ export default function FilterControls({ onFilterChange }) {
         onChange={handleChange}
         className="border rounded px-2 py-1 text-sm"
       />
+      {/* Clear time button */}
+<button
+        type="button"
+        onClick={() =>
+        onFilterChange((prev) => ({ ...prev, time: "" }))
+  }
+        className="px-2 py-1 text-xs border rounded bg-gray-100 hover:bg-gray-200"
+>
+        Clear
+</button>
+
 </div>
-
   );
-
 }
+
 
  
