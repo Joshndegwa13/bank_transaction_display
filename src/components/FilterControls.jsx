@@ -23,21 +23,21 @@ export default function FilterControls({ onFilterChange }) {
         className="border rounded px-2 py-1 text-sm"
       />
       {/* Time picker */}
-<input
+{/* <input
         type="time"
         name="time"
         onChange={handleChange}
-        className="border rounded px-2 py-1 text-sm"
+        className="border rounded px-2 py-1 text-sm" */}
 
-      />
+      {/* /> */}
       {/* Clear time button */}
-<button
+{/* <button
         type="button"
         onClick={() => onFilterChange((prev) => ({ ...prev, time: "" }))}
         className="px-2 py-1 text-xs border rounded bg-gray-100 hover:bg-gray-200"
 >
         Clear Time
-</button>
+</button> */}
 </div>
 
   );

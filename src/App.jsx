@@ -19,7 +19,7 @@ export default function App() {
 
     startDate: "", 
     endDate: "",   
-    time: "",      
+    // time: "",      
 
   });
  
@@ -48,9 +48,7 @@ export default function App() {
             val &&
             typeof val === "string" &&
             val.toLowerCase().includes(searchTerm.toLowerCase())
-
         )
-
       : true;
     const txnDate = new Date(txn.transaction_date);
     const txnDateStr = txnDate.toISOString().slice(0, 10); // YYYY-MM-DD
