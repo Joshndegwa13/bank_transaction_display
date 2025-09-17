@@ -83,10 +83,18 @@ export default function App() {
 <Notification latestTransaction={latestTransaction} />
  
         {transactions.length > 0 && (
-<div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-4">
+<div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
+
+ 
+<div className="flex gap-4">
 <SearchBar onSearch={setSearchTerm} />
 <FilterControls onFilterChange={setFilters} />
 </div>
+
+<ExportButton transactions={filteredTransactions} />
+</div>
+
+ 
         )}
         {loading ? (
 <p className="text-gray-600">Loading transactions...</p>
@@ -97,7 +105,6 @@ export default function App() {
         ) : (
 <>
 <TransactionTable transactions={filteredTransactions} />
-<ExportButton transactions={filteredTransactions} />
 </>
         )}
 </main>
