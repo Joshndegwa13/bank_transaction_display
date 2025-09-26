@@ -6,6 +6,8 @@ import TransactionTable from "./components/TransactionTable";
 import ExportButton from "./components/ExportButton";
 import SearchBar from "./components/SearchBar";
 import FilterControls from "./components/FilterControls";
+import echo from "./echo";
+import Preloader from "./components/Preloader";
  
 export default function App() {
   const [transactions, setTransactions] = useState([]);
@@ -39,7 +41,34 @@ export default function App() {
       });
 
   }, []);
+
+useEffect(() => {
+
+  console.log("Setting up Echo listener for real-time transactions...");
+
+  const channel = echo.channel("transactions")
+
+    .listen(".transaction.created", (e) => {
+
+      console.log("New transaction received:", e);
+
+      setTransactions((prev) => [e.transaction, ...prev]);
+
+    });
  
+  return () => {
+
+    channel.stopListening(".transaction.created");
+
+  };
+
+}, []);
+
+ // rendering preloader while fetching data
+  if (loading) {
+    return <Preloader />;
+  }
+
   const latestTransaction = transactions[0];
   const filteredTransactions = transactions.filter((txn) => {
     const matchesSearch = searchTerm
@@ -94,7 +123,6 @@ export default function App() {
 <ExportButton transactions={filteredTransactions} />
 </div>
 
- 
         )}
         {loading ? (
 <p className="text-gray-600">Loading transactions...</p>
